@@ -14,6 +14,26 @@ npm run dev     # http://localhost:3000
 npm run build   # production build
 ```
 
+## Deploy (Cloudflare Pages)
+
+The site is a static export (`output: "export"` in `next.config.mjs`), so
+Pages serves it as plain files with no server runtime.
+
+Connect the repo in the Cloudflare dashboard and set:
+
+| Setting | Value |
+| --- | --- |
+| Framework preset | Next.js (Static HTML Export) |
+| Build command | `npm run build` |
+| Build output directory | `out` |
+| Node version | 20 or newer (`NODE_VERSION` env var) |
+
+`public/_headers` sets security headers and long-lived caching for hashed
+`/_next/static` assets; Pages reads it from the build output automatically.
+
+Point `kuhlman.co` at the project under **Custom domains** once the first
+deploy is green.
+
 ## Structure
 
 | Path | Purpose |
