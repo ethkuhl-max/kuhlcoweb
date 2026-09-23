@@ -1,0 +1,70 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: dark;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+body {
+  background: #000;
+  color: #fff;
+}
+
+/* Starlink-style full-viewport panel snapping. Disabled for users who
+   prefer reduced motion and on short viewports where snapping traps content. */
+@media (min-height: 640px) and (prefers-reduced-motion: no-preference) {
+  .snap-root {
+    scroll-snap-type: y proximity;
+  }
+  .snap-panel {
+    scroll-snap-align: start;
+    scroll-snap-stop: always;
+  }
+}
+
+@layer components {
+  .shell {
+    @apply mx-auto w-full max-w-shell px-6 md:px-10;
+  }
+
+  .label {
+    @apply text-label font-medium uppercase tracking-label text-haze;
+  }
+
+  /* The white pill CTA. */
+  .btn {
+    @apply inline-flex h-11 items-center justify-center rounded-full px-8 text-label
+           font-semibold uppercase tracking-label transition-colors duration-200
+           focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4
+           focus-visible:outline-white;
+  }
+  .btn-solid {
+    @apply btn bg-paper text-ink hover:bg-white/80;
+  }
+  .btn-ghost {
+    @apply btn border border-white/50 text-paper hover:border-white hover:bg-white/10;
+  }
+
+  .hairline {
+    @apply border-white/15;
+  }
+}
+
+/* Slow drift on the star field so the panels feel alive without motion noise. */
+@keyframes drift {
+  from { transform: translate3d(0, 0, 0); }
+  to { transform: translate3d(0, -80px, 0); }
+}
+.stars {
+  animation: drift 120s linear infinite alternate;
+}
+@media (prefers-reduced-motion: reduce) {
+  .stars { animation: none; }
+}
